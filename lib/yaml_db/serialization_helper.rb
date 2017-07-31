@@ -68,7 +68,7 @@ module YamlDb
         begin
           ActiveRecord::Base.connection.execute("TRUNCATE #{Utils.quote_table(table)} CASCADE")
         rescue Exception
-          ActiveRecord::Base.connection.execute("DELETE FROM #{Utils.quote_table(table)}")
+          ActiveRecord::Base.connection.execute("DELETE FROM #{Utils.quote_table(table)} CASCADE")
         end
       end
 
