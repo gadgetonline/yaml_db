@@ -1,4 +1,8 @@
+.ruby-gemset
+.ruby-version
 *.gem
 /.bundle/
 /pkg/
+/spec/rspec_status.txt
 Gemfile.lock
+

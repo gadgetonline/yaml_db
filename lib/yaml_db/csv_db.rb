@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module YamlDb
   module CsvDb
     module Helper
@@ -10,25 +12,25 @@ module YamlDb
       end
 
       def self.extension
-        "csv"
+        'csv'
       end
     end
 
     class Load < SerializationHelper::Load
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def self.load_documents(io, truncate = true)
         tables = {}
         curr_table = nil
+
         io.each do |line|
           if /BEGIN_CSV_TABLE_DECLARATION(.+)END_CSV_TABLE_DECLARATION/ =~ line
-            curr_table = $1
+            curr_table = Regexp.last_match(1)
             tables[curr_table] = {}
+          elsif tables[curr_table]['columns']
+            tables[curr_table]['records'] << FasterCSV.parse(line)[0]
           else
-            if tables[curr_table]["columns"]
-              tables[curr_table]["records"] << FasterCSV.parse(line)[0]
-            else
-              tables[curr_table]["columns"] = FasterCSV.parse(line)[0]
-              tables[curr_table]["records"] = []
-            end
+            tables[curr_table]['columns'] = FasterCSV.parse(line)[0]
+            tables[curr_table]['records'] = []
           end
         end
 
@@ -36,11 +38,11 @@ module YamlDb
           load_table(table_name, contents, truncate)
         end
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
     end
 
     class Dump < SerializationHelper::Dump
-
-      def self.before_table(io,table)
+      def self.before_table(io, table)
         io.write "BEGIN_CSV_TABLE_DECLARATION#{table}END_CSV_TABLE_DECLARATION\n"
       end
 
@@ -52,8 +54,8 @@ module YamlDb
         end
       end
 
-      def self.after_table(io,table)
-        io.write ""
+      def self.after_table(io, _table)
+        io.write ''
       end
 
       def self.dump_table_columns(io, table)
@@ -61,17 +63,16 @@ module YamlDb
       end
 
       def self.dump_table_records(io, table)
-
         column_names = table_column_names(table)
 
         each_table_page(table) do |records|
-          rows = SerializationHelper::Utils.unhash_records(records, column_names)
+          SerializationHelper::Utils.unhash_records(records, column_names)
+
           records.each do |record|
             io.write(record.to_csv)
           end
         end
       end
-
     end
   end
 end

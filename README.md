@@ -42,6 +42,29 @@ One common use would be to switch your data from one database backend to another
 
 4. rake db:load
 
+## Options
+
+Two options let you control what tables are dumped: `include` and `exclude`. The former is a
+  whitelist; the latter is a blacklist. If a whitelist is provided, it names the tables to dump
+  (rather than all database tables). Each table mentioned in the blacklist is excluded.
+
+Each list expects a `:`-separated list of table names. For example, the command ...
+
+```
+$ include=users:posts:topics rake db:data:dump
+```
+
+... would dump the `users`, `posts`, and `topics` tables, while ...
+
+```
+$ exclude=hits:versions rake db:data:dump
+```
+
+... would dump all tables except `hits` and `versions`.
+
+You can provide a whitelist and blacklist at the same time, which makes scripting easier. If
+a table appears in both lists, it is excluded. 
+
 ## Credits
 
 Created by Orion Henry and Adam Wiggins. Major updates by Ricardo Chimal Jr. and Nate Kidwell.

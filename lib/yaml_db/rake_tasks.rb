@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module YamlDb
   module RakeTasks
     def self.data_dump_task

@@ -1,0 +1,44 @@
+---
+AllCops:
+  Exclude:
+    - 'Guardfile'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'features/support/env.rb'
+    - 'lib/tasks/cucumber.rake'
+    - 'lib/generators/**/*'
+    - 'lib/tasks/ci.rake'
+    - 'lib/yaml_db/rake_tasks.rb'
+    - 'md/**/*'
+    - 'node_modules/**/*'
+    - 'spec/html/**/*'
+    - 'spec/yaml_db/*'
+
+  TargetRubyVersion: 2.5
+
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - 'spec/factories/**/*'
+    - 'assets/javascripts/rails.validations.js'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+    - 'app/admin/item/item_controller.rb'
+
+Metrics/LineLength:
+  Exclude:
+    - Guardfile
+
+  Max: 105
+
+Rails:
+  Enabled: true
+
+Rails/HttpPositionalArguments:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+
+Style/Documentation:
+  Enabled: false

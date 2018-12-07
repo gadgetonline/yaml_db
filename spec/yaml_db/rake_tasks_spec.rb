@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module YamlDb
   RSpec.describe RakeTasks do
     before do
